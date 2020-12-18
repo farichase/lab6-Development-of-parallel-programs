@@ -4,7 +4,10 @@ import akka.actor.ActorRef;
 import akka.http.javadsl.Http;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
+import akka.http.javadsl.model.Query;
+import akka.http.javadsl.model.Uri;
 import akka.http.javadsl.server.Route;
+import akka.japi.Pair;
 import akka.pattern.Patterns;
 
 import java.time.Duration;
@@ -26,7 +29,9 @@ public class Server {
         return http.singleRequest(HttpRequest.create(url));
     }
     private String createUrl(String serverUrl, String url, int count){
-        return 
+        return Uri.create(serverUrl).query(Query.create(new Pair[]{
+                Pair.create()
+        }))
     }
     public Route createRoute(){
         return route(get() ->
