@@ -43,7 +43,7 @@ public class Server {
                         }
                         return completeWithFuture(Patterns.ask(this.storeActor, new RandomServer(), timeout))
                                 .thenCompose((serverUrl) ->
-                                    fetch(this.createUrl((String)serverUrl, url, count))
+                                    fetch(this.createUrl((String)serverUrl, url, Integer.parseInt(count)))
                                 )
                     })
 
