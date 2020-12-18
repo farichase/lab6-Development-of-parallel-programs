@@ -1,2 +1,4 @@
-package lab6;public class RandomServer {
+package lab6;
+
+public class RandomServer {
 }
