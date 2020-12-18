@@ -25,6 +25,9 @@ public class Server {
     private static CompletionStage<HttpResponse> fetch(String url){
         return http.singleRequest(HttpRequest.create(url));
     }
+    private String createUrl(String serverUrl, String url, int count){
+        return 
+    }
     public Route createRoute(){
         return route(get() ->
             parameter(URL, (url) ->
