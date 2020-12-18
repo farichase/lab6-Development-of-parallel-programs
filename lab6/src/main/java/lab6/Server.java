@@ -28,7 +28,9 @@ public class Server {
                             return completeWithFuture(http.singleRequest(HttpRequest.create(url)));
                         }
                         return completeWithFuture(Patterns.ask(this.storeActor, new RandomServer(), timeout))
-                                .
+                                .thenCompose((serverUrl)
+
+                                )
                     })
 
             )
