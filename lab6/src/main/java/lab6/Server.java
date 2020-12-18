@@ -6,6 +6,8 @@ import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.server.Route;
 import akka.pattern.Patterns;
 
+import java.time.Duration;
+
 import static akka.http.javadsl.server.Directives.*;
 
 public class Server {
@@ -13,7 +15,7 @@ public class Server {
     private static final String COUNT = "count";
     private Http http;
     private ActorRef storeActor;
-    private 
+    private Duration timeout = Duration.ofSeconds(5);
     public Server(Http http, ActorRef storeActor){
         this.http = http;
         this.storeActor = storeActor;
@@ -23,9 +25,10 @@ public class Server {
             parameter(URL, (url) ->
                     parameter(COUNT, count -> {
                         if (Integer.parseInt(count) <= 0){
-                            return completeWithFuture(http.singleRequest(HttpRequest.create(url));
+                            return completeWithFuture(http.singleRequest(HttpRequest.create(url)));
                         }
                         return completeWithFuture(Patterns.ask(this.storeActor, new RandomServer(), timeout))
+                                .
                     })
 
             )
