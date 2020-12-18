@@ -31,7 +31,7 @@ public class Server {
     private String createUrl(String serverUrl, String url, int count){
         return Uri.create(serverUrl).query(Query.create(new Pair[]{
                 Pair.create("url", url),
-                Pair.create("count", String.valueOf(count-1))
+                Pair.create("count", String.valueOf(count - 1))
         })).toString();
     }
     public Route createRoute(){
@@ -43,7 +43,7 @@ public class Server {
                         }
                         return completeWithFuture(Patterns.ask(this.storeActor, new RandomServer(), timeout))
                                 .thenCompose((serverUrl) ->
-                                    fetch(this.createUrl(serverUrl, url, count))
+                                    fetch(this.createUrl((String)serverUrl, url, count))
                                 )
                     })
 
