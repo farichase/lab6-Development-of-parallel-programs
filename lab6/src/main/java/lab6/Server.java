@@ -6,9 +6,9 @@ import static akka.http.javadsl.server.Directives.route;
 
 public class Server {
     public Route createRoute(){
-        return route(get(
-                
-                )
+        return this.get(() -> {
+            return this.parameter()
+                }
 
         );
     }
