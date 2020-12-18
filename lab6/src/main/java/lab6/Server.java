@@ -35,20 +35,19 @@ public class Server {
         })).toString();
     }
     public Route createRoute(){
-        return route(get() ->
+        return route(get(() ->
             parameter(URL, (url) ->
                     parameter(COUNT, count -> {
                         if (Integer.parseInt(count) <= 0){
                             return completeWithFuture(fetch(url));
                         }
-                        return completeWithFuture(Patterns.ask(this.storeActor, new RandomServer(), timeout))
+                        return completeWithFuture(Patterns.ask(this.storeActor, new RandomServer(), timeout)
                                 .thenCompose((serverUrl) ->
                                     fetch(this.createUrl((String)serverUrl, url, Integer.parseInt(count)))
-                                )
+                                ));
                     })
-
             )
 
-        );
+        ));
     }
 }
