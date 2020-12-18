@@ -24,7 +24,7 @@ public class Server {
                         if (Integer.parseInt(count) <= 0){
                             return completeWithFuture(http.singleRequest(HttpRequest.create(url));
                         }
-                        return completeWithFuture(Patterns.ask(this.storeActor, new G))
+                        return completeWithFuture(Patterns.ask(this.storeActor, new ))
                     })
 
             )
