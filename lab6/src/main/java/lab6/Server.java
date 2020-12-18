@@ -30,8 +30,9 @@ public class Server {
     }
     private String createUrl(String serverUrl, String url, int count){
         return Uri.create(serverUrl).query(Query.create(new Pair[]{
-                Pair.create()
-        }))
+                Pair.create("url", url),
+                Pair.create("count", String.valueOf(count-1))
+        })).toString();
     }
     public Route createRoute(){
         return route(get() ->
