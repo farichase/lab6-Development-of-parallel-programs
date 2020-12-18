@@ -1,2 +1,5 @@
-package lab6;public class StoreActor {
+package lab6;
+
+public class StoreActor {
+    
 }
