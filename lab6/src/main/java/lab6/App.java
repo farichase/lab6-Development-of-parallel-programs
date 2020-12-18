@@ -21,7 +21,7 @@ public class App {
     public static void main(String[] args) throws IOException {
         System.out.println("start!");
         ActorSystem system = ActorSystem.create("routes");
-        ActorRef storeActor = system.actorOf(Props.create(StoreActor.class))
+        ActorRef storeActor = system.actorOf(Props.create(StoreActor.class), "storeActor");
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = new ;
