@@ -19,11 +19,11 @@ public class Zoo {
         this.serverWatch();
     }
     public void createServer(String serverUrl) throws KeeperException, InterruptedException {
-        this.zooKeeper.create(CHILD_PATH, serverUrl.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        this.zooKeeper.create("/servers/s", serverUrl.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
     }
     private void serverWatch(){
         try {
-            List<String> serversChildren = this.zooKeeper.getChildren(PARENT_PATH, watchedEvent -> {
+            List<String> serversChildren = this.zooKeeper.getChildren("/servers", watchedEvent -> {
                 if (watchedEvent.getType() == Watcher.Event.EventType.NodeChildrenChanged){
                     this.serverWatch();
                 }
@@ -33,7 +33,7 @@ public class Zoo {
 
             while(iterator.hasNext()){
                 String line = (String) iterator.next();
-                byte[] serverUrl = this.zooKeeper.getData(PARENT_PATH + SLASH + line, null, null);
+                byte[] serverUrl = this.zooKeeper.getData("/servers/" + line, null, null);
                 serversNames.add(new String(serverUrl));
             }
             this.storeActor.tell(new Message(serversNames), ActorRef.noSender());
