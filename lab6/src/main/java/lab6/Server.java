@@ -18,6 +18,7 @@ import static akka.http.javadsl.server.Directives.*;
 
 public class Server {
     private static final String URL = "url";
+    private static final String SERVER_URL = "http://localhost:";
     private static final String COUNT = "count";
     private static Http http;
     private ActorRef storeActor;
@@ -31,7 +32,7 @@ public class Server {
         zoo.createServer();
     }
     private String getServerUrl(int port){
-        return ""
+        return 
     }
     private static CompletionStage<HttpResponse> fetch(String url){
         return http.singleRequest(HttpRequest.create(url));
