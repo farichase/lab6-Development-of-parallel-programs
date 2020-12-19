@@ -19,7 +19,7 @@ public class Zoo {
         this.serverWatch();
     }
     public void createServer(String serverUrl) throws KeeperException, InterruptedException {
-        this.zooKeeper.create("/servers/s", serverUrl.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        this.zooKeeper.create("/servers/", serverUrl.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
     }
     private void serverWatch(){
         try {
