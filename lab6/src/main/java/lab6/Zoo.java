@@ -1,9 +1,7 @@
 package lab6;
 
 import akka.actor.ActorRef;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,21 +11,22 @@ import java.util.List;
 public class Zoo {
     private ZooKeeper zooKeeper;
     private String CONNECT_STRING = "127.0.0.1:2181";
-    private String PATH = "/servers";
-    private int timeout = 3000;
+    private String PARENT_PATH = "/servers";
+    private String CHILD_PATH = "/servers/s";
     private String SLASH = "/";
+    private int timeout = 3000;
     private ActorRef storeActor;
     public Zoo(ActorRef storeActor) throws IOException {
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, null);
         this.storeActor = storeActor;
         this.serverWatch();
     }
-    public void createServer(String serverUrl){
-        this.zooKeeper.create(PATH + SLASH + "s", serverUrl.getBytes(), )
+    public void createServer(String serverUrl) throws IOException, KeeperException, InterruptedException {
+        this.zooKeeper.create(CHILD_PATH + SLASH + "s", serverUrl.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
     }
     private void serverWatch(){
         try {
-            List<String> serversChildren = this.zooKeeper.getChildren(PATH, watchedEvent -> {
+            List<String> serversChildren = this.zooKeeper.getChildren(PARENT_PATH, watchedEvent -> {
                 if (watchedEvent.getType() == Watcher.Event.EventType.NodeChildrenChanged){
                     this.serverWatch();
                 }
@@ -37,7 +36,7 @@ public class Zoo {
 
             while(iterator.hasNext()){
                 String line = (String) iterator.next();
-                byte[] serverUrl = this.zooKeeper.getData(PATH + SLASH + line, null, null);
+                byte[] serverUrl = this.zooKeeper.getData(PARENT_PATH + SLASH + line, null, null);
                 serversNames.add(new String(serverUrl));
             }
             this.storeActor.tell(new Message(serversNames), ActorRef.noSender());
