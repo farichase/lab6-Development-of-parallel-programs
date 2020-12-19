@@ -30,7 +30,7 @@ public class Server extends AllDirectives {
     }
     private void zooKeeperInit(int port) throws IOException, KeeperException, InterruptedException {
         Zoo zoo = new Zoo(storeActor);
-        zoo.createServer(getServerUrl(port));
+        zoo.createServer(port);
     }
     private String getServerUrl(int port){
         return SERVER_URL + port;

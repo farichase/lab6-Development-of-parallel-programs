@@ -16,8 +16,8 @@ public class Zoo {
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, watcher);
         this.storeActor = storeActor;
     }
-    public void createServer(String port) throws KeeperException, InterruptedException{
-        this.zooKeeper.create("/servers/" + port, port.getBytes(),
+    public void createServer(int port) throws KeeperException, InterruptedException{
+        this.zooKeeper.create("/servers/" + port, String.valueOf(port).getBytes(),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
         WatchedEvent event = new WatchedEvent(Watcher.Event.EventType.NodeCreated,
                 Watcher.Event.KeeperState.SyncConnected, "");
