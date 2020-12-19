@@ -11,9 +11,6 @@ import java.util.List;
 public class Zoo {
     private final ZooKeeper zooKeeper;
     private final String CONNECT_STRING = "127.0.0.1:2181";
-    private final String PARENT_PATH = "/servers";
-    private final String CHILD_PATH = "/servers/s";
-    private final String SLASH = "/";
     private final int timeout = 3000;
     private final ActorRef storeActor;
     public Zoo(ActorRef storeActor) throws IOException {
