@@ -18,7 +18,6 @@ import java.util.concurrent.CompletionStage;
 
 public class Server extends AllDirectives {
     private static final String URL = "url";
-    private static final String SERVER_URL = "http://localhost:";
     private static final String COUNT = "count";
     private static Http http;
     private final ActorRef storeActor;
@@ -31,9 +30,6 @@ public class Server extends AllDirectives {
     private void zooKeeperInit(int port) throws IOException, KeeperException, InterruptedException {
         Zoo zoo = new Zoo(storeActor);
         zoo.createServer(port);
-    }
-    private String getServerUrl(int port){
-        return SERVER_URL + port;
     }
     private static CompletionStage<HttpResponse> fetch(String url){
         return http.singleRequest(HttpRequest.create(url));
