@@ -15,7 +15,7 @@ import akka.stream.javadsl.Flow;
 import java.io.IOException;
 import java.util.concurrent.CompletionStage;
 
-public class App {
+public class NotAnonimaizerAtAllApp {
     private final static String HOST = "localhost";
     private final static int PORT = 8080;
     public static void main(String[] args) throws IOException {

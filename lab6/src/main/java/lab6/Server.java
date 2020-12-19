@@ -28,7 +28,7 @@ public class Server {
         this.http = http;
         this.storeActor = storeActor;
     }
-    private void zooKeeperInit(int port) throws IOException, KeeperException {
+    private void zooKeeperInit(int port) throws IOException, KeeperException, InterruptedException {
         Zoo zoo = new Zoo(storeActor);
         zoo.createServer(this.getServerUrl(port));
     }
