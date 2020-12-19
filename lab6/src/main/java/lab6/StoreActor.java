@@ -13,6 +13,7 @@ public class StoreActor extends AbstractActor {
                     this.servers = msg.getServers();
                 })
                 .match(RandomServer.class, msg -> {
+
                     getSender().tell(servers.);
                 })
         .build();
