@@ -9,6 +9,7 @@ import akka.http.javadsl.model.Uri;
 import akka.http.javadsl.server.Route;
 import akka.japi.Pair;
 import akka.pattern.Patterns;
+import org.apache.zookeeper.KeeperException;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -27,7 +28,7 @@ public class Server {
         this.http = http;
         this.storeActor = storeActor;
     }
-    private void zooKeeperInit(int port) throws IOException {
+    private void zooKeeperInit(int port) throws IOException, KeeperException {
         Zoo zoo = new Zoo(storeActor);
         zoo.createServer(this.getServerUrl(port));
     }
