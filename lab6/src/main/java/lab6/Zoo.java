@@ -33,7 +33,7 @@ public class Zoo {
 
             while(iterator.hasNext()){
                 String line = (String) iterator.next();
-                
+                byte[] serverUrl = this.zooKeeper.getData(PATH + )
             }
         } catch(KeeperException | InterruptedException e) {
 
