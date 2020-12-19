@@ -10,6 +10,7 @@ import akka.http.javadsl.server.Route;
 import akka.japi.Pair;
 import akka.pattern.Patterns;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 
@@ -25,8 +26,8 @@ public class Server {
         this.http = http;
         this.storeActor = storeActor;
     }
-    private void zooKeeperInit(int port){
-        Zoo zoo = new Zoo()
+    private void zooKeeperInit(int port) throws IOException {
+        Zoo zoo = new Zoo(storeActor);
     }
     private static CompletionStage<HttpResponse> fetch(String url){
         return http.singleRequest(HttpRequest.create(url));

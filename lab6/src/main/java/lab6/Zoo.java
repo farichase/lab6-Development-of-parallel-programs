@@ -37,7 +37,7 @@ public class Zoo {
                 byte[] serverUrl = this.zooKeeper.getData(PATH + SLASH + line, null, null);
                 serversNames.add(new String(serverUrl));
             }
-            this.storeActor.tell(new N);
+            this.storeActor.tell(new Message(serversNames), ActorRef.noSender());
         } catch(KeeperException | InterruptedException e) {
             e.printStackTrace();
         }

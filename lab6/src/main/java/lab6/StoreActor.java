@@ -12,6 +12,9 @@ public class StoreActor extends AbstractActor {
                 .match(Message.class, msg -> {
                     this.servers = msg.getServers();
                 })
+                .match(
+
+                )
         .build();
 
     }
