@@ -14,19 +14,16 @@ public class Zoo {
     private final int timeout = 3000;
     private final ActorRef storeActor;
     public Zoo(ActorRef storeActor, String serverUrl) throws IOException, KeeperException, InterruptedException {
-        this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, serverWatch);
+        this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, watcher);
         this.storeActor = storeActor;
         this.serverWatch(serverUrl);
     }
-    public void createServer {
-        this.zooKeeper.create("/servers/", serverUrl.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
-    }
-    private static Watcher watcher = watchedEvent -> {
+    private Watcher watcher = watchedEvent -> {
         if (watchedEvent.getType() == Watcher.Event.EventType.NodeCreated ||
             watchedEvent.getType() == Watcher.Event.EventType.NodeDeleted ||
             watchedEvent.getType() == Watcher.Event.EventType.NodeDataChanged){
             ArrayList<String> serversNames = new ArrayList<>();
-            Iterator iterator = serversChildren.iterator();
+            Iterator iterator = this.zooKeeper.getChildren("/servers", null).iterator();
 
             while(iterator.hasNext()){
                 String line = (String) iterator.next();
