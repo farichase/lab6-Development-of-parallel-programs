@@ -15,6 +15,7 @@ public class Zoo {
     private String CONNECT_STRING = "127.0.0.1:2181";
     private String PATH = "/servers";
     private int timeout = 3000;
+    private String SLASH = "/";
     private ActorRef storeActor;
     public Zoo(ActorRef storeActor) throws IOException {
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, (Watcher) null);
@@ -33,10 +34,12 @@ public class Zoo {
 
             while(iterator.hasNext()){
                 String line = (String) iterator.next();
-                byte[] serverUrl = this.zooKeeper.getData(PATH + )
+                byte[] serverUrl = this.zooKeeper.getData(PATH + SLASH + line, null, null);
+                serversNames.add(new String(serverUrl));
             }
+            this.storeActor.tell();
         } catch(KeeperException | InterruptedException e) {
-
+            e.printStackTrace();
         }
     }
 }
