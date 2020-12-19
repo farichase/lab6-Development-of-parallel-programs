@@ -13,21 +13,18 @@ public class Zoo {
     private final String CONNECT_STRING = "127.0.0.1:2181";
     private final int timeout = 3000;
     private final ActorRef storeActor;
-    public Zoo(ActorRef storeActor) throws IOException {
-        this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, null);
+    public Zoo(ActorRef storeActor, String serverUrl) throws IOException, KeeperException, InterruptedException {
+        this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, serverWatch);
         this.storeActor = storeActor;
-        this.serverWatch();
+        this.serverWatch(serverUrl);
     }
-    public void createServer(String serverUrl) throws KeeperException, InterruptedException {
+    public void createServer {
         this.zooKeeper.create("/servers/", serverUrl.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
     }
-    private void serverWatch(){
-        try {
-            List<String> serversChildren = this.zooKeeper.getChildren("/servers", watchedEvent -> {
-                if (watchedEvent.getType() == Watcher.Event.EventType.NodeChildrenChanged){
-                    this.serverWatch();
-                }
-            });
+    private static Watcher watcher = watchedEvent -> {
+        if (watchedEvent.getType() == Watcher.Event.EventType.NodeCreated ||
+            watchedEvent.getType() == Watcher.Event.EventType.NodeDeleted ||
+            watchedEvent.getType() == Watcher.Event.EventType.NodeDataChanged){
             ArrayList<String> serversNames = new ArrayList<>();
             Iterator iterator = serversChildren.iterator();
 
