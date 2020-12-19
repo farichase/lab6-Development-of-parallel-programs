@@ -9,13 +9,13 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Zoo {
-    private ZooKeeper zooKeeper;
-    private String CONNECT_STRING = "127.0.0.1:2181";
-    private String PARENT_PATH = "/servers";
-    private String CHILD_PATH = "/servers/s";
-    private String SLASH = "/";
-    private int timeout = 3000;
-    private ActorRef storeActor;
+    private final ZooKeeper zooKeeper;
+    private final String CONNECT_STRING = "127.0.0.1:2181";
+    private final String PARENT_PATH = "/servers";
+    private final String CHILD_PATH = "/servers/s";
+    private final String SLASH = "/";
+    private final int timeout = 3000;
+    private final ActorRef storeActor;
     public Zoo(ActorRef storeActor) throws IOException {
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, null);
         this.storeActor = storeActor;
