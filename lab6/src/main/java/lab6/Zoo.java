@@ -1,2 +1,7 @@
-package lab6;public class Zoo {
+package lab6;
+
+import akka.actor.ActorRef;
+
+public class Zoo {
+    public Zoo(ActorRef )
 }

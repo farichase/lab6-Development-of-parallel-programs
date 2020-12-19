@@ -25,6 +25,9 @@ public class Server {
         this.http = http;
         this.storeActor = storeActor;
     }
+    private void zooKeeperInit(int port){
+        Zoo zoo = new Zoo()
+    }
     private static CompletionStage<HttpResponse> fetch(String url){
         return http.singleRequest(HttpRequest.create(url));
     }
