@@ -20,7 +20,7 @@ public class Zoo {
     public Zoo(ActorRef storeActor) throws IOException {
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, null);
         this.storeActor = storeActor;
-
+        this.serverWatch();
     }
     private void serverWatch(){
         try {
