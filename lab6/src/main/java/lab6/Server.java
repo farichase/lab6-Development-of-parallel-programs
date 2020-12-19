@@ -29,10 +29,10 @@ public class Server {
     }
     private void zooKeeperInit(int port) throws IOException {
         Zoo zoo = new Zoo(storeActor);
-        zoo.createServer();
+        zoo.createServer(this.getServerUrl(port));
     }
     private String getServerUrl(int port){
-        return 
+        return SERVER_URL + port;
     }
     private static CompletionStage<HttpResponse> fetch(String url){
         return http.singleRequest(HttpRequest.create(url));

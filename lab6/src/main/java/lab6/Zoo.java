@@ -22,6 +22,9 @@ public class Zoo {
         this.storeActor = storeActor;
         this.serverWatch();
     }
+    public void createServer(String serverUrl){
+        this.zooKeeper.create(PATH + SLASH + "s", serverUrl.getBytes(), )
+    }
     private void serverWatch(){
         try {
             List<String> serversChildren = this.zooKeeper.getChildren(PATH, watchedEvent -> {
