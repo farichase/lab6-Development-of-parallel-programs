@@ -18,7 +18,7 @@ public class Zoo {
     private String SLASH = "/";
     private ActorRef storeActor;
     public Zoo(ActorRef storeActor) throws IOException {
-        this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, (Watcher) null);
+        this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, null);
         this.storeActor = storeActor;
 
     }
