@@ -21,8 +21,8 @@ public class Zoo {
         this.storeActor = storeActor;
         this.serverWatch();
     }
-    public void createServer(String serverUrl) throws IOException, KeeperException, InterruptedException {
-        this.zooKeeper.create(CHILD_PATH + SLASH + "s", serverUrl.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+    public void createServer(String serverUrl) throws KeeperException, InterruptedException {
+        this.zooKeeper.create(CHILD_PATH, serverUrl.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
     }
     private void serverWatch(){
         try {

@@ -6,6 +6,7 @@ import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.http.javadsl.model.Query;
 import akka.http.javadsl.model.Uri;
+import akka.http.javadsl.server.AllDirectives;
 import akka.http.javadsl.server.Route;
 import akka.japi.Pair;
 import akka.pattern.Patterns;
@@ -15,18 +16,17 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 
-import static akka.http.javadsl.server.Directives.*;
-
-public class Server {
+public class Server extends AllDirectives {
     private static final String URL = "url";
     private static final String SERVER_URL = "http://localhost:";
     private static final String COUNT = "count";
     private static Http http;
-    private ActorRef storeActor;
-    private Duration timeout = Duration.ofSeconds(5);
-    public Server(Http http, ActorRef storeActor){
+    private final ActorRef storeActor;
+    private final Duration timeout = Duration.ofSeconds(5);
+    public Server(Http http, ActorRef storeActor, int port) throws IOException, KeeperException, InterruptedException{
         this.http = http;
         this.storeActor = storeActor;
+        this.zooKeeperInit(port);
     }
     private void zooKeeperInit(int port) throws IOException, KeeperException, InterruptedException {
         Zoo zoo = new Zoo(storeActor);

@@ -11,6 +11,7 @@ import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
+import org.apache.zookeeper.KeeperException;
 
 import java.io.IOException;
 import java.util.concurrent.CompletionStage;
@@ -18,13 +19,13 @@ import java.util.concurrent.CompletionStage;
 public class NotAnonimaizerAtAllApp {
     private final static String HOST = "localhost";
     private final static int PORT = 8080;
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, KeeperException, InterruptedException {
         System.out.println("start!");
         ActorSystem system = ActorSystem.create("routes");
         ActorRef storeActor = system.actorOf(Props.create(StoreActor.class), "storeActor");
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
-        final Server server = new Server(http, storeActor);
+        final Server server = new Server(http, storeActor, PORT);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = server.createRoute().flow(system, materializer) ;
         final CompletionStage<ServerBinding> bindingCompletionStage = http.bindAndHandle(
             routeFlow,
