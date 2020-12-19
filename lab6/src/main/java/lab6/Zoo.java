@@ -12,7 +12,7 @@ public class Zoo {
     private final String CONNECT_STRING = "127.0.0.1:2181";
     private final int timeout = 3000;
     private ActorRef storeActor;
-    public Zoo(ActorRef storeActor, int port) throws IOException {
+    public Zoo(ActorRef storeActor) throws IOException {
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, timeout, watcher);
         this.storeActor = storeActor;
     }
