@@ -25,12 +25,12 @@ public class Server extends AllDirectives {
     public Server(Http http, ActorRef storeActor) throws IOException, KeeperException, InterruptedException{
         this.http = http;
         this.storeActor = storeActor;
+        System.out.println("kk");
     }
     private static CompletionStage<HttpResponse> fetch(String url){
         return http.singleRequest(HttpRequest.create(url));
     }
     private String createUrl(String serverUrl, String url, int count){
-        System.out.println("im here");
         return Uri.create(serverUrl).query(Query.create(new Pair[]{
                 Pair.create("url", url),
                 Pair.create("count", String.valueOf(count - 1))
