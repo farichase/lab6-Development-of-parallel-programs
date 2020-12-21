@@ -4,11 +4,11 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class StoreActor extends AbstractActor {
-    private ArrayList<String> servers;
+    private List<String> servers;
     public Receive createReceive(){
         return ReceiveBuilder.create()
                 .match(Message.class, msg -> this.servers = msg.getServers())
