@@ -13,7 +13,7 @@ public class Zoo {
     private final String CONNECT_STRING = "127.0.0.1:2181";
     private ActorRef storeActor;
     private final String SERVER = "localhost";
-    public Zoo(ActorRef storeActor, int port) throws IOException, KeeperException, InterruptedException {
+    public Zoo(ActorRef storeActor) throws IOException, KeeperException, InterruptedException {
         this.storeActor = storeActor;
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, 5000, null);
     }

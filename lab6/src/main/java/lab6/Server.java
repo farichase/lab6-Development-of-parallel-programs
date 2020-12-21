@@ -22,14 +22,9 @@ public class Server extends AllDirectives {
     private static Http http;
     private final ActorRef storeActor;
     private final Duration timeout = Duration.ofSeconds(5);
-    public Server(Http http, ActorRef storeActor, int port) throws IOException, KeeperException, InterruptedException{
+    public Server(Http http, ActorRef storeActor) throws IOException, KeeperException, InterruptedException{
         this.http = http;
         this.storeActor = storeActor;
-        this.zooKeeperInit(port);
-    }
-    private void zooKeeperInit(int port) throws IOException, KeeperException, InterruptedException {
-        Zoo zoo = new Zoo(storeActor);
-        zoo.createServer(port);
     }
     private static CompletionStage<HttpResponse> fetch(String url){
         return http.singleRequest(HttpRequest.create(url));
