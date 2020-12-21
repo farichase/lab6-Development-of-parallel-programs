@@ -10,8 +10,7 @@ import java.util.Iterator;
 
 public class Zoo {
     private ZooKeeper zooKeeper;
-    private final String CONNECT_STRING = "localhost:2181";
-    private final Duration timeout = Duration.ofSeconds(5);
+    private final String CONNECT_STRING = "127.0.0.1:2181";
     private ActorRef storeActor;
     private final String SERVER = "localhost";
     public Zoo(ActorRef storeActor, int port) throws IOException, KeeperException, InterruptedException {
@@ -19,7 +18,7 @@ public class Zoo {
         createServer(port);
     }
     public void createServer(int port) throws IOException, KeeperException, InterruptedException{
-        this.zooKeeper = new ZooKeeper(CONNECT_STRING, (int)timeout.getSeconds() * 1000, null);
+        this.zooKeeper = new ZooKeeper(CONNECT_STRING, 5000, null);
         this.zooKeeper.create("/servers/" + SERVER + ":" + port, String.valueOf(port).getBytes(),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
         WatchedEvent event = new WatchedEvent(Watcher.Event.EventType.NodeCreated,
