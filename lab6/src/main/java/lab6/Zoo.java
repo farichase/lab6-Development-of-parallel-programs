@@ -7,8 +7,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-public class Zoo {
+public class Zoo implements Watcher {
     private ZooKeeper zooKeeper;
     private final String CONNECT_STRING = "127.0.0.1:2181";
     private ActorRef storeActor;
@@ -16,31 +17,15 @@ public class Zoo {
     public Zoo(ActorRef storeActor) throws IOException, KeeperException, InterruptedException {
         this.storeActor = storeActor;
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, 5000, null);
+        sendServers();
+    }
+    public void sendServers() throws IOException, KeeperException, InterruptedException{
+        List<String> serversNames = zooKeeper.getChildren("/servers", this);
+        this.storeActor.tell(new Message(serversNames), ActorRef.noSender());
     }
     public void createConnection(int port) throws IOException, KeeperException, InterruptedException{
         this.zooKeeper.create("/servers/" + SERVER + ":" + port, String.valueOf(port).getBytes(StandardCharsets.UTF_8),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
-        WatchedEvent event = new WatchedEvent(Watcher.Event.EventType.NodeCreated,
-                Watcher.Event.KeeperState.SyncConnected, "");
-        watcher.process(event);
+        this.storeActor.tell(new , ActorRef.noSender());
     }
-
-    public Watcher watcher = watchedEvent -> {
-        if (watchedEvent.getType() == Watcher.Event.EventType.NodeCreated ||
-                watchedEvent.getType() == Watcher.Event.EventType.NodeDeleted ||
-                watchedEvent.getType() == Watcher.Event.EventType.NodeDataChanged) {
-            ArrayList<String> serversNames = new ArrayList<>();
-            try {
-                Iterator iterator = this.zooKeeper.getChildren("/servers", null).iterator();
-                while (iterator.hasNext()) {
-                    String line = (String) iterator.next();
-                    byte[] serverUrl = this.zooKeeper.getData("/servers/" + line, false, null);
-                    serversNames.add(new String(serverUrl));
-                }
-                this.storeActor.tell(new Message(serversNames), ActorRef.noSender());
-            } catch (KeeperException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    };
 }

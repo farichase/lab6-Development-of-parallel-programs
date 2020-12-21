@@ -1,13 +1,12 @@
 package lab6;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class Message {
-    private final ArrayList<String> servers;
-    public Message(ArrayList<String> servers) {
+    private final List<String> servers;
+    public Message(List<String> servers) {
         this.servers = servers;
     }
-    public ArrayList<String> getServers(){
+    public List<String> getServers(){
         return this.servers;
     }
 }
