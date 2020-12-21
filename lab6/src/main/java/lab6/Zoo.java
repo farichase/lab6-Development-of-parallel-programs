@@ -15,10 +15,9 @@ public class Zoo {
     private final String SERVER = "localhost";
     public Zoo(ActorRef storeActor, int port) throws IOException, KeeperException, InterruptedException {
         this.storeActor = storeActor;
-        createServer(port);
-    }
-    public void createServer(int port) throws IOException, KeeperException, InterruptedException{
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, 5000, null);
+    }
+    public void createConnection(int port) throws IOException, KeeperException, InterruptedException{
         this.zooKeeper.create("/servers/" + SERVER + ":" + port, String.valueOf(port).getBytes(StandardCharsets.UTF_8),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
         WatchedEvent event = new WatchedEvent(Watcher.Event.EventType.NodeCreated,

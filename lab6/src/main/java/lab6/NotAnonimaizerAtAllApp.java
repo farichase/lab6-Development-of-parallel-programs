@@ -26,7 +26,7 @@ public class NotAnonimaizerAtAllApp {
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
         final Zoo zoo = new Zoo(storeActor, PORT);
-
+        
         final Server server = new Server(http, storeActor, PORT);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = server.createRoute().flow(system, materializer) ;
         final CompletionStage<ServerBinding> bindingCompletionStage = http.bindAndHandle(
