@@ -4,7 +4,7 @@ import akka.actor.ActorRef;
 import org.apache.zookeeper.*;
 
 import java.io.IOException;
-import java.time.Duration;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -19,7 +19,7 @@ public class Zoo {
     }
     public void createServer(int port) throws IOException, KeeperException, InterruptedException{
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, 5000, null);
-        this.zooKeeper.create("/servers/" + SERVER + ":" + port, String.valueOf(port).getBytes(),
+        this.zooKeeper.create("/servers/" + SERVER + ":" + port, String.valueOf(port).getBytes(StandardCharsets.UTF_8),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
         WatchedEvent event = new WatchedEvent(Watcher.Event.EventType.NodeCreated,
                 Watcher.Event.KeeperState.SyncConnected, "");
