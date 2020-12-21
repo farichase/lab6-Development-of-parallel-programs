@@ -15,7 +15,7 @@ public class Zoo implements Watcher {
     public Zoo(ActorRef storeActor) throws IOException, KeeperException, InterruptedException {
         this.storeActor = storeActor;
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, 5000, null);
-        //sendServers();
+        sendServers();
     }
     public void sendServers() throws KeeperException, InterruptedException{
         List<String> serversNames = zooKeeper.getChildren("/servers", this);
