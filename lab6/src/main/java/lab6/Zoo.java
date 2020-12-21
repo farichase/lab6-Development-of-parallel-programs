@@ -26,6 +26,6 @@ public class Zoo implements Watcher {
     public void createConnection(int port) throws IOException, KeeperException, InterruptedException{
         this.zooKeeper.create("/servers/" + SERVER + ":" + port, String.valueOf(port).getBytes(StandardCharsets.UTF_8),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
-        this.storeActor.tell(new , ActorRef.noSender());
+        this.storeActor.tell(SERVER + ":" + port , ActorRef.noSender());
     }
 }
