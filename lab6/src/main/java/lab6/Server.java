@@ -48,6 +48,7 @@ public class Server extends AllDirectives {
                             return completeWithFuture(fetch(url));
                         }
                         return completeWithFuture(Patterns.ask(this.storeActor, new RandomServer(), timeout)
+                                .thenApply(serverUrl -> (String)serverUrl)
                                 .thenCompose((serverUrl) ->
                                     fetch(this.createUrl((String)serverUrl, url, Integer.parseInt(count)))
                                 ));
