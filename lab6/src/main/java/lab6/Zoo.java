@@ -12,17 +12,18 @@ public class Zoo implements Watcher {
     private final String CONNECT_STRING = "127.0.0.1:2181";
     private ActorRef storeActor;
     private final String SERVER = "localhost";
+    private final String PATH = "/servers";
     public Zoo(ActorRef storeActor) throws IOException, KeeperException, InterruptedException {
         this.storeActor = storeActor;
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, 5000, null);
         sendServers();
     }
     public void sendServers() throws KeeperException, InterruptedException{
-        List<String> serversNames = zooKeeper.getChildren("/servers", this);
+        List<String> serversNames = zooKeeper.getChildren(PATH, this);
         this.storeActor.tell(new Message(serversNames), ActorRef.noSender());
     }
     public void createConnection(int port) throws KeeperException, InterruptedException{
-        this.zooKeeper.create("/servers/" + SERVER + ":" + "8080",
+        this.zooKeeper.create(PATH + "/" + SERVER + ":" + port,
                 String.valueOf(port).getBytes(StandardCharsets.UTF_8),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE,
                 CreateMode.EPHEMERAL);

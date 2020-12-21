@@ -10,9 +10,6 @@ import akka.http.javadsl.server.AllDirectives;
 import akka.http.javadsl.server.Route;
 import akka.japi.Pair;
 import akka.pattern.Patterns;
-import org.apache.zookeeper.KeeperException;
-
-import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 
@@ -22,7 +19,7 @@ public class Server extends AllDirectives {
     private static Http http;
     private final ActorRef storeActor;
     private final Duration timeout = Duration.ofSeconds(5);
-    public Server(Http http, ActorRef storeActor) throws IOException, KeeperException, InterruptedException{
+    public Server(Http http, ActorRef storeActor) {
         this.http = http;
         this.storeActor = storeActor;
     }
@@ -31,8 +28,8 @@ public class Server extends AllDirectives {
     }
     private String createUrl(String serverUrl, String url, int count){
         return Uri.create(serverUrl).query(Query.create(new Pair[]{
-                Pair.create("url", url),
-                Pair.create("count", String.valueOf(count - 1))
+                Pair.create(URL, url),
+                Pair.create(COUNT, String.valueOf(count - 1))
         })).toString();
     }
     public Route createRoute(){
@@ -45,7 +42,7 @@ public class Server extends AllDirectives {
                         return completeWithFuture(Patterns.ask(this.storeActor, new RandomServer(), timeout)
                                 .thenApply(serverUrl -> (String)serverUrl)
                                 .thenCompose((serverUrl) ->
-                                    fetch(this.createUrl((String)serverUrl, url, Integer.parseInt(count)))
+                                    fetch(this.createUrl(serverUrl, url, Integer.parseInt(count)))
                                 ));
                     })
             )
