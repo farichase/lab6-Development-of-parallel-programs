@@ -25,7 +25,6 @@ public class Server extends AllDirectives {
     public Server(Http http, ActorRef storeActor) throws IOException, KeeperException, InterruptedException{
         this.http = http;
         this.storeActor = storeActor;
-        System.out.println("kk");
     }
     private static CompletionStage<HttpResponse> fetch(String url){
         return http.singleRequest(HttpRequest.create(url));
