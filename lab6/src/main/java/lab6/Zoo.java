@@ -5,8 +5,6 @@ import org.apache.zookeeper.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Zoo implements Watcher {
@@ -19,13 +17,21 @@ public class Zoo implements Watcher {
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, 5000, null);
         sendServers();
     }
-    public void sendServers() throws IOException, KeeperException, InterruptedException{
+    public void sendServers() throws KeeperException, InterruptedException{
         List<String> serversNames = zooKeeper.getChildren("/servers", this);
         this.storeActor.tell(new Message(serversNames), ActorRef.noSender());
     }
-    public void createConnection(int port) throws IOException, KeeperException, InterruptedException{
+    public void createConnection(int port) throws KeeperException, InterruptedException{
         this.zooKeeper.create("/servers/" + SERVER + ":" + port, String.valueOf(port).getBytes(StandardCharsets.UTF_8),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
         this.storeActor.tell(SERVER + ":" + port , ActorRef.noSender());
+    }
+    @Override
+    public void process(WatchedEvent watchedEvent){
+        try {
+            sendServers();
+        } catch (KeeperException | InterruptedException e){
+            e.printStackTrace();
+        }
     }
 }
