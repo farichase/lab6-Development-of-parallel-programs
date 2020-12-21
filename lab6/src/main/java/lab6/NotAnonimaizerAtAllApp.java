@@ -11,6 +11,7 @@ import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.zookeeper.KeeperException;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class NotAnonimaizerAtAllApp {
     private final static String HOST = "localhost";
     private final static int PORT = 8080;
     public static void main(String[] args) throws IOException, KeeperException, InterruptedException {
+        BasicConfigurator.configure();
         System.out.println("start!");
         ActorSystem system = ActorSystem.create("routes");
         ActorRef storeActor = system.actorOf(Props.create(StoreActor.class), "storeActor");
