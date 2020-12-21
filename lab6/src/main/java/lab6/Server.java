@@ -30,6 +30,7 @@ public class Server extends AllDirectives {
         return http.singleRequest(HttpRequest.create(url));
     }
     private String createUrl(String serverUrl, String url, int count){
+        System.out.println("im here");
         return Uri.create(serverUrl).query(Query.create(new Pair[]{
                 Pair.create("url", url),
                 Pair.create("count", String.valueOf(count - 1))
