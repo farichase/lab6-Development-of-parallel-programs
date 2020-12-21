@@ -13,6 +13,7 @@ public class Zoo {
     private final String CONNECT_STRING = "localhost:2181";
     private final Duration timeout = Duration.ofSeconds(5);
     private ActorRef storeActor;
+    private  
     public Zoo(ActorRef storeActor)  {
         this.storeActor = storeActor;
     }
