@@ -13,13 +13,14 @@ public class Zoo {
     private final String CONNECT_STRING = "localhost:2181";
     private final Duration timeout = Duration.ofSeconds(5);
     private ActorRef storeActor;
-    private  
+    private final String SERVER = "localhost";
     public Zoo(ActorRef storeActor)  {
         this.storeActor = storeActor;
     }
     public void createServer(int port) throws IOException, KeeperException, InterruptedException{
         this.zooKeeper = new ZooKeeper(CONNECT_STRING, (int)timeout.getSeconds() * 1000, null);
-        this.zooKeeper.create("/servers/" + port, (port+"").getBytes(),
+        String serverUrl = "http://" + SERVER + port;
+        this.zooKeeper.create("/servers", serverUrl.getBytes(),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
         WatchedEvent event = new WatchedEvent(Watcher.Event.EventType.NodeCreated,
                 Watcher.Event.KeeperState.SyncConnected, "");
